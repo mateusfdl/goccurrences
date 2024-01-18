@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package occurrence;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+enum Occurrence {
+    NewAccount = 0;
+	NewPost = 1;
+	NewLike = 2;
+}
+
+message NewOccurrence {
+    Occurrence occurrenceCode = 1;
+    google.protobuf.Timestamp occurrenceTime = 2;
+    string userId = 3;
+}
+
+service OccurrenceService {
+    rpc CreateOccurrence (NewOccurrence) returns (google.protobuf.Empty);
+}
