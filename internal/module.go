@@ -20,7 +20,7 @@ var AdapterModules = fx.Options(
 
 func Start() {
 	fx.New(
-		CoreModules,
 		AdapterModules,
+		CoreModules,
 	).Run()
 }

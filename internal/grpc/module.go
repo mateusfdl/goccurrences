@@ -10,9 +10,7 @@ import (
 )
 
 var (
-	Module = fx.Provide(
-		NewServer,
-	)
+	Module = fx.Module("grpc", fx.Provide(NewServer), Invokables)
 
 	Invokables = fx.Invoke(InvokeServer)
 )

@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 
+	mongodb "github.com/mateusfdl/go-poc/internal/mongo"
 	"github.com/mateusfdl/go-poc/internal/occurrences/dto"
 	"github.com/mateusfdl/go-poc/internal/occurrences/entity"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -13,8 +14,8 @@ type MongoOccurrenceRepository struct {
 	collection *mongo.Collection
 }
 
-func NewOccurrenceRepository(db *mongo.Database) *MongoOccurrenceRepository {
-	return &MongoOccurrenceRepository{collection: db.Collection("occurrences")}
+func NewOccurrenceRepository(db *mongodb.Mongo) *MongoOccurrenceRepository {
+	return &MongoOccurrenceRepository{collection: db.DB.Collection("occurrences")}
 }
 
 func (c *MongoOccurrenceRepository) Create(

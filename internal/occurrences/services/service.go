@@ -13,7 +13,7 @@ type OccurrenceService struct {
 	logger               *zap.Logger
 }
 
-func New(occurrenceRepository repository.OccurrenceRepository, logger *zap.Logger) *OccurrenceService {
+func NewOccurrenceService(occurrenceRepository repository.OccurrenceRepository, logger *zap.Logger) *OccurrenceService {
 	return &OccurrenceService{
 		occurrenceRepository: occurrenceRepository,
 		logger:               logger,

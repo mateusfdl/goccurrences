@@ -7,13 +7,17 @@ import (
 )
 
 var Module = fx.Options(
-	fx.Provide(func() (*zap.Logger, error) {
-		return zap.NewProduction()
-	}),
-	fx.Provide(func(logger *zap.Logger) *zap.SugaredLogger {
-		return logger.Sugar()
-	}),
+	fx.Provide(NewLogger),
+	fx.Provide(NewSugarLogger),
 	fx.WithLogger(func(logger *zap.Logger) fxevent.Logger {
 		return &fxevent.ZapLogger{Logger: logger}
 	}),
 )
+
+func NewLogger() (*zap.Logger, error) {
+	return zap.NewProduction()
+}
+
+func NewSugarLogger(logger *zap.Logger) *zap.SugaredLogger {
+	return logger.Sugar()
+}

@@ -12,7 +12,7 @@ type CreateOccurrenceDTO struct {
 	Timestamp  time.Time `json:"timestamp"`
 }
 
-func fromProto(oc *occurrences.NewOccurrence) CreateOccurrenceDTO {
+func FromProto(oc *occurrences.NewOccurrence) CreateOccurrenceDTO {
 	return CreateOccurrenceDTO{
 		SourceType: oc.OccurrenceCode.String(),
 		UserID:     oc.UserId,

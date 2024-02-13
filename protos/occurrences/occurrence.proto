@@ -3,7 +3,6 @@ syntax = "proto3";
 package occurrence;
 
 import "google/protobuf/timestamp.proto";
-import "google/protobuf/empty.proto";
 
 enum Occurrence {
     NewAccount = 0;
@@ -18,5 +17,9 @@ message NewOccurrence {
 }
 
 service OccurrenceService {
-    rpc CreateOccurrence (NewOccurrence) returns (google.protobuf.Empty);
+    rpc CreateOccurrence (NewOccurrence) returns (OccurrenceResponse);
 }
+
+message OccurrenceResponse {
+    string occurrence_id = 1;
+  }

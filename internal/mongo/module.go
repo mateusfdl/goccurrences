@@ -24,7 +24,7 @@ type Mongo struct {
 }
 
 func New(logger *zap.Logger) *Mongo {
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017/rewards-poc?authSource=admin&retryWrites=true&w=majority")
+	clientOptions := options.Client().ApplyURI("mongodb://127.0.0.1:27017/rewards-poc?authSource=admin&retryWrites=true&w=majority")
 	client, err := mongo.Connect(context.Background(), clientOptions)
 	if err != nil {
 		logger.Error("failed to connect to mongo")
@@ -34,10 +34,10 @@ func New(logger *zap.Logger) *Mongo {
 	return &Mongo{DB: db}
 }
 
-func HookConnection(lc fx.Lifecycle, client *mongo.Client, logger *zap.Logger) {
+func HookConnection(lc fx.Lifecycle, client *Mongo, logger *zap.Logger) {
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
-			err := client.Ping(ctx, nil)
+			err := client.DB.Client().Ping(ctx, nil)
 			if err != nil {
 				logger.Error("mongo is dead", zap.Error(err))
 				return err
@@ -48,7 +48,7 @@ func HookConnection(lc fx.Lifecycle, client *mongo.Client, logger *zap.Logger) {
 			return nil
 		},
 		OnStop: func(ctx context.Context) error {
-			err := client.Disconnect(ctx)
+			err := client.DB.Client().Disconnect(ctx)
 			if err != nil {
 				logger.Error("failed to gracefully disconnect from mongo", zap.Error(err))
 				return err
