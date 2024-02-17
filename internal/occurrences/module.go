@@ -1,7 +1,7 @@
 package occurrences
 
 import (
-	occurrencesGrpcServer "buf.build/gen/go/matheusslima/go-poc/grpc/go/occurrences/occurrencesgrpc"
+	occurrencesGrpcServer "buf.build/gen/go/matheusslima/go-poc/grpc/go/occurrences/v1/occurrencesv1grpc"
 	occurrenceGrpcInternal "github.com/mateusfdl/go-poc/internal/occurrences/grpc"
 	"github.com/mateusfdl/go-poc/internal/occurrences/repository"
 	"github.com/mateusfdl/go-poc/internal/occurrences/services"

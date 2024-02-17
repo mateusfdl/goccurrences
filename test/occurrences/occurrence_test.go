@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"buf.build/gen/go/matheusslima/go-poc/grpc/go/occurrences/occurrencesgrpc"
-	occurrenceGrpc "buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go/occurrences"
+	occurrencesgrpc "buf.build/gen/go/matheusslima/go-poc/grpc/go/occurrences/v1/occurrencesv1grpc"
+	occurrenceGrpc "buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go/occurrences/v1"
 	grpcServer "github.com/mateusfdl/go-poc/internal/grpc"
 	"github.com/mateusfdl/go-poc/internal/logger"
 	"github.com/mateusfdl/go-poc/internal/mongo"
@@ -40,7 +40,7 @@ var _ = BeforeSuite(func() {
 
 	var dialErr error
 	clientConn, dialErr = grpc.Dial(
-    "localhost:8080",
+		"localhost:8080",
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 
@@ -57,17 +57,18 @@ var _ = AfterSuite(func() {
 var _ = Describe("grpc occurrence handler", func() {
 	Describe("CreateOccurrence", func() {
 		It("creates a occurrence", func() {
+			userId := "65cbcd82f5cec8b2f2b1b29f"
 			resp, err := OccurrenceClient.CreateOccurrence(
 				context.Background(),
-				&occurrenceGrpc.NewOccurrence{
+				&occurrenceGrpc.CreateOccurrenceRequest{
 					OccurrenceCode: 0,
 					OccurrenceTime: timestamppb.Now(),
-					UserId:         "65cbcd82f5cec8b2f2b1b29f",
+					UserId:         userId,
 				},
 			)
-			Expect(err).To(Equal(nil))
+			Expect(err).To(BeNil())
 
-			Expect(resp.OccurrenceId).To(Equal("1"))
+			Expect(resp.GetOccurrenceId()).To(Not(BeEmpty()))
 		})
 	})
 })

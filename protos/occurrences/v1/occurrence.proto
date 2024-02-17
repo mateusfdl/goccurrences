@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package occurrences.v1;
+
+import "google/protobuf/timestamp.proto";
+
+enum OccurrenceType {
+        OCCURRENCE_TYPE_NEW_ACCOUNT = 0;
+	OCCURRENCE_TYPE_NEW_POST = 1;
+	OCCURRENCE_TYPE_NEW_LIKE = 2;
+}
+
+message CreateOccurrenceRequest{
+    OccurrenceType occurrence_code = 1;
+    google.protobuf.Timestamp occurrence_time = 2;
+    string user_id = 3;
+}
+
+message Occurrence {
+    string occurrence_id = 1;
+    OccurrenceType occurrence_code = 2;
+    google.protobuf.Timestamp occurrence_time = 3;
+}
+
+service OccurrenceService {
+    rpc CreateOccurrence (CreateOccurrenceRequest) returns (CreateOccurrenceResponse);
+}
+
+message CreateOccurrenceResponse{
+    string occurrence_id = 1;
+  }
+
+message UserOccurrencesResponse {
+    repeated Occurrence occurrences = 1;
+}
+

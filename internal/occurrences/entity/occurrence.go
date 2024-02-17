@@ -3,9 +3,12 @@ package entity
 import "time"
 
 const (
-	DrillPerformed = iota
-	PostInCommunityFeed
+  AccountCreated = iota
+  PostCreated
+  LikeCreated
 )
+
+type OccurrenceType int
 
 type Occurrence struct {
 	ID         string    `bson:"_id"`

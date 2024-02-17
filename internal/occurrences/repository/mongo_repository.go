@@ -2,11 +2,13 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"log"
 
 	mongodb "github.com/mateusfdl/go-poc/internal/mongo"
 	"github.com/mateusfdl/go-poc/internal/occurrences/dto"
 	"github.com/mateusfdl/go-poc/internal/occurrences/entity"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -28,7 +30,15 @@ func (c *MongoOccurrenceRepository) Create(
 		return "", err
 	}
 
-	return doc.InsertedID.(string), nil
+	oid, ok := doc.InsertedID.(primitive.ObjectID)
+
+	if !ok {
+		log.Fatal("error casting to object id")
+		return "", errors.New("error casting to object id")
+
+	}
+
+	return oid.Hex(), nil
 }
 
 func (c *MongoOccurrenceRepository) List(
