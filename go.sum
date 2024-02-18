@@ -1,11 +1,6 @@
-buf.build/gen/go/matheusslima/go-poc/grpc/go v1.3.0-20240217211608-e852cfc136a1.2 h1:z1ZwGu6zqtZD5lCKO/jBhBqWLojDdQpQi9RTf0kQoyU=
-buf.build/gen/go/matheusslima/go-poc/grpc/go v1.3.0-20240217211608-e852cfc136a1.2/go.mod h1:4p/vHzqfBDTiJvJ4WF+/MetT6O0TwztDdc5g7InnWuQ=
 buf.build/gen/go/matheusslima/go-poc/grpc/go v1.3.0-20240217230903-87054d88a57f.2 h1:4+pj6Iy0YZ6C05uHCXcFXSVfc20cU6AfqtHpiQ8wDHY=
 buf.build/gen/go/matheusslima/go-poc/grpc/go v1.3.0-20240217230903-87054d88a57f.2/go.mod h1:J2E6LC1e+hXygTls/mfk5+RD+HCcGQsvwKmulYvmZzc=
-buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go v1.28.1-20240217211608-e852cfc136a1.4/go.mod h1:Af/Ycy9d0MOizu/Ze4jIKNSRtx3b5C7A6ETLJW2ZPiU=
 buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go v1.28.1-20240217230903-87054d88a57f.4/go.mod h1:Af/Ycy9d0MOizu/Ze4jIKNSRtx3b5C7A6ETLJW2ZPiU=
-buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go v1.32.0-20240217211608-e852cfc136a1.1 h1:cMkyYBzEIBLkdM9RHMQ6+wyZot9aYOZXs9tXdEWmM8s=
-buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go v1.32.0-20240217211608-e852cfc136a1.1/go.mod h1:dkqIwENNghfvK/CUSZcvrbDa7euGhnbrRx1dfmXk/bw=
 buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go v1.32.0-20240217230903-87054d88a57f.1 h1:tW3VaWKDK0Wa5VVh2TA8oNU9J/8vyKolo3uHwsaMZCo=
 buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go v1.32.0-20240217230903-87054d88a57f.1/go.mod h1:dkqIwENNghfvK/CUSZcvrbDa7euGhnbrRx1dfmXk/bw=
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
