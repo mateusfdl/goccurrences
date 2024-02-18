@@ -8,6 +8,7 @@ import (
 	mongodb "github.com/mateusfdl/go-poc/internal/mongo"
 	"github.com/mateusfdl/go-poc/internal/occurrences/dto"
 	"github.com/mateusfdl/go-poc/internal/occurrences/entity"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -22,7 +23,7 @@ func NewOccurrenceRepository(db *mongodb.Mongo) *MongoOccurrenceRepository {
 
 func (c *MongoOccurrenceRepository) Create(
 	ctx context.Context,
-	dto dto.CreateOccurrenceDTO,
+	dto *dto.CreateOccurrenceDTO,
 ) (string, error) {
 	doc, err := c.collection.InsertOne(ctx, dto)
 	if err != nil {
@@ -44,16 +45,22 @@ func (c *MongoOccurrenceRepository) Create(
 func (c *MongoOccurrenceRepository) List(
 	ctx context.Context,
 	ID string,
+	Limit uint32,
+	Skip uint32,
 ) ([]entity.Occurrence, error) {
 	var occurrences []entity.Occurrence
-	cursor, err := c.collection.Find(ctx, dto.CreateOccurrenceDTO{UserID: ID})
+	stages := bson.A{
+		bson.D{{Key: "$match", Value: bson.D{{Key: "user_id", Value: ID}}}},
+	}
+
+	cursor, err := c.collection.Aggregate(ctx, stages)
 	if err != nil {
-		log.Fatal(err)
-		return nil, err
+		return nil, ErrAggregationPipeline
 	}
-	if err = cursor.All(ctx, &occurrences); err != nil {
-		log.Fatal(err)
-		return nil, err
+	if err = cursor.All(context.TODO(), &occurrences); err != nil {
+		return nil, ErrListUserOccurrences
+
 	}
+
 	return occurrences, nil
 }

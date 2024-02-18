@@ -19,11 +19,13 @@ import (
 )
 
 var (
-	TestApp = fx.New(
+	mongoClient *mongo.Mongo
+	TestApp     = fx.New(
 		occurrences.Module,
 		grpcServer.Module,
 		logger.Module,
 		mongo.Module,
+		fx.Populate(&mongoClient),
 	)
 
 	clientConn       *grpc.ClientConn
@@ -51,6 +53,7 @@ var _ = BeforeSuite(func() {
 
 var _ = AfterSuite(func() {
 	Expect(clientConn.Close()).To(Succeed())
+	Expect(mongoClient.DB.Client().Database("rewards-poc").Collection("occurrences").Drop(context.Background())).To(Succeed())
 	Expect(TestApp.Stop(context.Background())).To(Succeed())
 })
 
@@ -69,6 +72,52 @@ var _ = Describe("grpc occurrence handler", func() {
 			Expect(err).To(BeNil())
 
 			Expect(resp.GetOccurrenceId()).To(Not(BeEmpty()))
+		})
+	})
+
+	Describe("ListUserOccurences", func() {
+		It("returns all user occurrences", func() {
+			userId := "65cbcd82f5cec8b2f2b1b29f"
+			otherUserId := "65cbcd82f5cec8b2f2b1b28f"
+
+			var occurreceIDs = make([]string, 10)
+
+			for i := 0; i < 10; i++ {
+				occurrenceID, err := OccurrenceClient.CreateOccurrence(
+					context.Background(),
+					&occurrenceGrpc.CreateOccurrenceRequest{
+						OccurrenceCode: 0,
+						OccurrenceTime: timestamppb.Now(),
+						UserId:         userId,
+					},
+				)
+				Expect(err).To(BeNil())
+				occurreceIDs = append(occurreceIDs, occurrenceID.GetOccurrenceId())
+			}
+
+			otherOccurrenceID, err := OccurrenceClient.CreateOccurrence(
+				context.Background(),
+				&occurrenceGrpc.CreateOccurrenceRequest{
+					OccurrenceCode: 0,
+					OccurrenceTime: timestamppb.Now(),
+					UserId:         otherUserId,
+				},
+			)
+			Expect(err).To(BeNil())
+
+			resp, err := OccurrenceClient.ListUserOccurrences(context.Background(), &occurrenceGrpc.ListUserOccurrencesRequest{
+				UserId: userId,
+				Limit:  10,
+				Skip:   0,
+			})
+			Expect(err).To(BeNil())
+
+			Expect(resp.GetOccurrences()).To(HaveLen(10))
+
+			for _, occurrence := range resp.GetOccurrences() {
+				Expect(occurreceIDs).To(ContainElement(occurrence.GetOccurrenceId()))
+			}
+			Expect(occurreceIDs).To(Not(ContainElement(otherOccurrenceID.GetOccurrenceId())))
 		})
 	})
 })

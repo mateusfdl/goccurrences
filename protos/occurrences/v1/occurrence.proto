@@ -16,6 +16,20 @@ message CreateOccurrenceRequest{
     string user_id = 3;
 }
 
+message CreateOccurrenceResponse{
+    string occurrence_id = 1;
+  }
+
+message ListUserOccurrencesResponse {
+    repeated Occurrence occurrences = 1;
+}
+
+message ListUserOccurrencesRequest {
+      string user_id = 1;
+      uint32 skip = 2;
+      uint32 limit = 3;
+}
+
 message Occurrence {
     string occurrence_id = 1;
     OccurrenceType occurrence_code = 2;
@@ -24,13 +38,5 @@ message Occurrence {
 
 service OccurrenceService {
     rpc CreateOccurrence (CreateOccurrenceRequest) returns (CreateOccurrenceResponse);
+    rpc ListUserOccurrences (ListUserOccurrencesRequest) returns (ListUserOccurrencesResponse);
 }
-
-message CreateOccurrenceResponse{
-    string occurrence_id = 1;
-  }
-
-message UserOccurrencesResponse {
-    repeated Occurrence occurrences = 1;
-}
-

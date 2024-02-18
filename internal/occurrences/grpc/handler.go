@@ -28,7 +28,7 @@ func (h OccurrenceHandler) CreateOccurrence(
 	ctx context.Context,
 	b *occurrences.CreateOccurrenceRequest,
 ) (*occurrences.CreateOccurrenceResponse, error) {
-	dto := dto.FromProto(b)
+	dto := dto.FromCreateOccurrenceProto(b)
 
 	id, err := h.service.Create(ctx, dto)
 	if err != nil {
@@ -36,4 +36,10 @@ func (h OccurrenceHandler) CreateOccurrence(
 	}
 
 	return &occurrences.CreateOccurrenceResponse{OccurrenceId: id}, nil
+}
+
+func (h OccurrenceHandler) ListUserOccurrences(ctx context.Context, b *occurrences.ListUserOccurrencesRequest) (*occurrences.ListUserOccurrencesResponse, error) {
+	dto.FromListUserOccurrenceProto(b)
+
+	return &occurrences.ListUserOccurrencesResponse{}, nil
 }

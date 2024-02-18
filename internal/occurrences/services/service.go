@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/mateusfdl/go-poc/internal/occurrences/dto"
+	"github.com/mateusfdl/go-poc/internal/occurrences/entity"
 	"github.com/mateusfdl/go-poc/internal/occurrences/repository"
 	"go.uber.org/zap"
 )
@@ -22,7 +23,7 @@ func NewOccurrenceService(occurrenceRepository repository.OccurrenceRepository, 
 
 func (s *OccurrenceService) Create(
 	ctx context.Context,
-	dto dto.CreateOccurrenceDTO,
+	dto *dto.CreateOccurrenceDTO,
 ) (string, error) {
 	id, err := s.occurrenceRepository.Create(ctx, dto)
 	if err != nil {
@@ -31,4 +32,22 @@ func (s *OccurrenceService) Create(
 	}
 
 	return id, nil
+}
+
+func (s *OccurrenceService) UserOccurrences(
+	ctx context.Context,
+	dto *dto.ListUserOccurrenceDTO,
+) ([]entity.Occurrence, error) {
+	o, err := s.occurrenceRepository.List(
+		ctx,
+		dto.UserID,
+		dto.Limit,
+		dto.Skip,
+	)
+
+	if err != nil {
+		s.logger.Error("error listing user occurrences:", zap.Error(err))
+	}
+
+	return o, nil
 }

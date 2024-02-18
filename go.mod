@@ -3,8 +3,8 @@ module github.com/mateusfdl/go-poc
 go 1.21.4
 
 require (
-	buf.build/gen/go/matheusslima/go-poc/grpc/go v1.3.0-20240217211608-e852cfc136a1.2
-	buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go v1.32.0-20240217211608-e852cfc136a1.1
+	buf.build/gen/go/matheusslima/go-poc/grpc/go v1.3.0-20240217230903-87054d88a57f.2
+	buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go v1.32.0-20240217230903-87054d88a57f.1
 	github.com/onsi/ginkgo/v2 v2.15.0
 	github.com/onsi/gomega v1.31.1
 	go.mongodb.org/mongo-driver v1.13.1
