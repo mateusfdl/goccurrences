@@ -47,10 +47,10 @@ func (c *MongoOccurrenceRepository) List(
 	ID string,
 	Limit uint32,
 	Skip uint32,
-) ([]entity.Occurrence, error) {
+) (*[]entity.Occurrence, error) {
 	var occurrences []entity.Occurrence
 	stages := bson.A{
-		bson.D{{Key: "$match", Value: bson.D{{Key: "user_id", Value: ID}}}},
+		bson.D{{Key: "$match", Value: bson.D{{Key: "userid", Value: ID}}}},
 	}
 
 	cursor, err := c.collection.Aggregate(ctx, stages)
@@ -62,5 +62,5 @@ func (c *MongoOccurrenceRepository) List(
 
 	}
 
-	return occurrences, nil
+	return &occurrences, nil
 }

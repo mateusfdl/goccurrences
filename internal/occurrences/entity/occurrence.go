@@ -12,7 +12,8 @@ type OccurrenceType int
 
 type Occurrence struct {
 	ID         string    `bson:"_id"`
-	SourceType string    `bson:"sourceType"`
+	SourceType int32    `bson:"sourceType"`
 	UserID     string    `bson:"userId"`
+        OccurrenceTime time.Time `bson:"occurrenceTime"`
 	CreatedAt  time.Time `bson:"createdAt"`
 }

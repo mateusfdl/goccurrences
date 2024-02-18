@@ -37,7 +37,7 @@ func (s *OccurrenceService) Create(
 func (s *OccurrenceService) UserOccurrences(
 	ctx context.Context,
 	dto *dto.ListUserOccurrenceDTO,
-) ([]entity.Occurrence, error) {
+) (*[]entity.Occurrence, error) {
 	o, err := s.occurrenceRepository.List(
 		ctx,
 		dto.UserID,
