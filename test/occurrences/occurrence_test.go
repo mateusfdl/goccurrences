@@ -6,6 +6,7 @@ import (
 
 	occurrencesgrpc "buf.build/gen/go/matheusslima/go-poc/grpc/go/occurrences/v1/occurrencesv1grpc"
 	occurrenceGrpc "buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go/occurrences/v1"
+	occurrencesv1 "buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go/occurrences/v1"
 	grpcServer "github.com/mateusfdl/go-poc/internal/grpc"
 	"github.com/mateusfdl/go-poc/internal/logger"
 	"github.com/mateusfdl/go-poc/internal/mongo"
@@ -60,7 +61,7 @@ var _ = AfterSuite(func() {
 var _ = Describe("grpc occurrence handler", func() {
 	Describe("CreateOccurrence", func() {
 		It("creates a occurrence", func() {
-			userId := "65cbcd82f5cec8b2f2b1b29f"
+			userId := "65cbcd82f5cec8b2f2b1b27f"
 			resp, err := OccurrenceClient.CreateOccurrence(
 				context.Background(),
 				&occurrenceGrpc.CreateOccurrenceRequest{
@@ -80,7 +81,7 @@ var _ = Describe("grpc occurrence handler", func() {
 			userId := "65cbcd82f5cec8b2f2b1b29f"
 			otherUserId := "65cbcd82f5cec8b2f2b1b28f"
 
-			var occurreceIDs = make([]string, 10)
+			var occurreceIDs = make([]string, 0, 10)
 
 			for i := 0; i < 10; i++ {
 				occurrenceID, err := OccurrenceClient.CreateOccurrence(
@@ -116,8 +117,9 @@ var _ = Describe("grpc occurrence handler", func() {
 
 			for _, occurrence := range resp.GetOccurrences() {
 				Expect(occurreceIDs).To(ContainElement(occurrence.GetOccurrenceId()))
+				Expect(occurrence.GetOccurrenceCode()).To(Equal(occurrencesv1.OccurrenceType(0)))
 			}
-			Expect(occurreceIDs).To(Not(ContainElement(otherOccurrenceID.GetOccurrenceId())))
+			Expect(resp.GetOccurrences()).To(Not(ContainElement(otherOccurrenceID.GetOccurrenceId())))
 		})
 	})
 })
