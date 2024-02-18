@@ -14,19 +14,11 @@ type OccurrenceHandler struct {
 	l       *zap.SugaredLogger
 }
 
-func NewOccurrenceHandler(
-	s *services.OccurrenceService,
-	l *zap.SugaredLogger,
-) *OccurrenceHandler {
-	return &OccurrenceHandler{
-		service: s,
-		l:       l,
-	}
+func NewOccurrenceHandler(s *services.OccurrenceService, l *zap.SugaredLogger) *OccurrenceHandler {
+	return &OccurrenceHandler{service: s, l: l}
 }
 
-func (h OccurrenceHandler) CreateOccurrence(
-	ctx context.Context,
-	b *occurrences.CreateOccurrenceRequest,
+func (h OccurrenceHandler) CreateOccurrence(ctx context.Context, b *occurrences.CreateOccurrenceRequest,
 ) (*occurrences.CreateOccurrenceResponse, error) {
 	dto := dto.FromCreateOccurrenceProto(b)
 
@@ -38,7 +30,8 @@ func (h OccurrenceHandler) CreateOccurrence(
 	return &occurrences.CreateOccurrenceResponse{OccurrenceId: id}, nil
 }
 
-func (h OccurrenceHandler) ListUserOccurrences(ctx context.Context, b *occurrences.ListUserOccurrencesRequest) (*occurrences.ListUserOccurrencesResponse, error) {
+func (h OccurrenceHandler) ListUserOccurrences(ctx context.Context, b *occurrences.ListUserOccurrencesRequest,
+) (*occurrences.ListUserOccurrencesResponse, error) {
 	dto := dto.FromListUserOccurrenceProto(b)
 
 	occurrences, err := h.service.UserOccurrences(ctx, dto)
