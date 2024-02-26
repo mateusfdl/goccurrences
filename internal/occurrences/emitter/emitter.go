@@ -16,14 +16,12 @@ type EventMap struct {
 
 var listenersMap *EventMap
 
-func New() *EventMap {
-	*listenersMap = EventMap{
+func New() {
+	listenersMap = &EventMap{
 		lock:            sync.RWMutex{},
 		listeners:       make(map[string][]HandlerCallback[any]),
 		ActiveListeners: 0,
 	}
-
-	return listenersMap
 }
 
 // AddListener adds a listener to the map of listeners
@@ -40,7 +38,7 @@ func AddListener[T any](h HandlerCallback[T]) {
 	}
 
 	if ok := listenersMap.listeners[name]; ok == nil {
-		listenersMap.listeners[name] = make([]HandlerCallback[any], 1)
+		listenersMap.listeners[name] = make([]HandlerCallback[any], 0)
 		listenersMap.ActiveListeners++
 	}
 

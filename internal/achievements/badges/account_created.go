@@ -6,10 +6,18 @@ import (
 )
 
 type AccountCreatedBadge struct {
-  logger *zap.SugaredLogger
+	logger *zap.SugaredLogger
 }
 
-func (b *AccountCreatedBadge) EvaluateRule([]*entity.Occurrence) error {
-  b.logger.Info("Account create badge rule evaluated")
-  return nil
+func NewAccountCreatedBadge(
+	l *zap.SugaredLogger,
+) *AccountCreatedBadge {
+	return &AccountCreatedBadge{
+		logger: l,
+	}
+}
+
+func (b *AccountCreatedBadge) EvaluateRule(*[]entity.Occurrence) error {
+	b.logger.Info("Account create badge rule evaluated")
+	return nil
 }

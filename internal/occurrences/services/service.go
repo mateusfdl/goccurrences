@@ -4,7 +4,9 @@ import (
 	"context"
 
 	"github.com/mateusfdl/go-poc/internal/occurrences/dto"
+	"github.com/mateusfdl/go-poc/internal/occurrences/emitter"
 	"github.com/mateusfdl/go-poc/internal/occurrences/entity"
+	"github.com/mateusfdl/go-poc/internal/occurrences/events"
 	"github.com/mateusfdl/go-poc/internal/occurrences/repository"
 	"go.uber.org/zap"
 )
@@ -31,6 +33,7 @@ func (s *OccurrenceService) Create(
 		return "", err
 	}
 
+	s.dispatchOccurrenceEvent(dto.UserID, dto.SourceType)
 	return id, nil
 }
 
@@ -50,4 +53,20 @@ func (s *OccurrenceService) UserOccurrences(
 	}
 
 	return o, nil
+}
+
+func (s *OccurrenceService) dispatchOccurrenceEvent(
+	userID string,
+	occurrenceType entity.OccurrenceType,
+) {
+	switch occurrenceType {
+	case entity.AccountCreated:
+		emitter.Emit(events.AccountCreatedEvent{UserID: userID})
+	case entity.LikeCreated:
+		emitter.Emit(events.LikeCreatedEvent{UserID: userID})
+	case entity.PostCreated:
+		emitter.Emit(events.PostCreatedEvent{UserID: userID})
+	default:
+		s.logger.Error("unknown occurrence type")
+	}
 }
