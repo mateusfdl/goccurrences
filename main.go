@@ -1,7 +1,11 @@
 package main
 
-import app "github.com/mateusfdl/go-poc/internal"
+import (
+  "fmt"
+  app "github.com/mateusfdl/go-poc/internal"
+)
 
 func main() {
 	app.Start()
+        fmt.Println("fooo")
 }
