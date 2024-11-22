@@ -50,6 +50,7 @@ func (s *OccurrenceService) UserOccurrences(
 
 	if err != nil {
 		s.logger.Error("error listing user occurrences:", zap.Error(err))
+		return &[]entity.Occurrence{}, err
 	}
 
 	return o, nil
