@@ -13,7 +13,10 @@ enum OccurrenceType {
 message CreateOccurrenceRequest {
   OccurrenceType occurrence_code = 1;
   google.protobuf.Timestamp occurrence_time = 2;
-  string user_id = 3;
+  string actor_id = 3;
+  string actor_type = 4;
+  string source_id = 5;
+  string source_type = 6;
 }
 
 message CreateOccurrenceResponse { string occurrence_id = 1; }
@@ -21,9 +24,10 @@ message CreateOccurrenceResponse { string occurrence_id = 1; }
 message ListUserOccurrencesResponse { repeated Occurrence occurrences = 1; }
 
 message ListUserOccurrencesRequest {
-  string user_id = 1;
-  uint32 skip = 2;
-  uint32 limit = 3;
+  string actor_id = 1;
+  string source_type = 2;
+  uint32 skip = 3;
+  uint32 limit = 4;
 }
 
 message Occurrence {
