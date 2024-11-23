@@ -44,7 +44,7 @@ func (l *Listeners) AccountCreatedEventHandlers(e events.AccountCreatedEvent) er
 	l.logger.Info(fmt.Sprintf("AccountCreatedEventHandlers: %v", e))
 	uOccurrences, err := l.occurrenceService.UserOccurrences(
 		context.Background(),
-		&dto.ListUserOccurrenceDTO{UserID: e.UserID},
+		&dto.ListUserOccurrenceDTO{ActorID: e.UserID},
 	)
 	if err != nil {
 		return err
