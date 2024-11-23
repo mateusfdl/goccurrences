@@ -59,11 +59,9 @@ func Emit[T any](t T) {
 			}
 		}(v)
 	}
-
 }
 
 // wraps the handler callback to a generic type
-// https://github.com/joaofnds/chev/blob/main/chev.go#L105
 func wrap[T any](f HandlerCallback[T]) HandlerCallback[any] {
 	return func(t any) error { return f(t.(T)) }
 }

@@ -1,5 +1,6 @@
 package events
 
 type AccountCreatedEvent struct {
-	UserID string
+  UserID string
+  CreatedAt string
 }

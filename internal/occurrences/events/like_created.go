@@ -1,5 +1,7 @@
 package events
 
 type LikeCreatedEvent struct {
-	UserID string
+  ResourceLikedID string
+  ResourceLikedType string 
+  CreatedAt string
 }

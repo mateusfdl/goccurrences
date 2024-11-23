@@ -57,9 +57,9 @@ func (c *MongoOccurrenceRepository) List(
 	if err != nil {
 		return nil, ErrAggregationPipeline
 	}
+
 	if err = cursor.All(context.TODO(), &occurrences); err != nil {
 		return nil, ErrListUserOccurrences
-
 	}
 
 	return &occurrences, nil

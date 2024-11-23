@@ -33,7 +33,7 @@ func (s *OccurrenceService) Create(
 		return "", err
 	}
 
-	s.dispatchOccurrenceEvent(dto.UserID, dto.SourceType)
+	s.dispatchOccurrenceEvent(dto, dto.SourceType)
 	return id, nil
 }
 
@@ -43,7 +43,7 @@ func (s *OccurrenceService) UserOccurrences(
 ) (*[]entity.Occurrence, error) {
 	o, err := s.occurrenceRepository.List(
 		ctx,
-		dto.UserID,
+		dto.ActorID,
 		dto.Limit,
 		dto.Skip,
 	)
@@ -57,16 +57,12 @@ func (s *OccurrenceService) UserOccurrences(
 }
 
 func (s *OccurrenceService) dispatchOccurrenceEvent(
-	userID string,
+	dto *dto.CreateOccurrenceDTO,
 	occurrenceType entity.OccurrenceType,
 ) {
 	switch occurrenceType {
 	case entity.AccountCreated:
-		emitter.Emit(events.AccountCreatedEvent{UserID: userID})
-	case entity.LikeCreated:
-		emitter.Emit(events.LikeCreatedEvent{UserID: userID})
-	case entity.PostCreated:
-		emitter.Emit(events.PostCreatedEvent{UserID: userID})
+		emitter.Emit(events.AccountCreatedEvent{UserID: dto.ActorID})
 	default:
 		s.logger.Error("unknown occurrence type")
 	}
