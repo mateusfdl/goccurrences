@@ -1,0 +1,11 @@
+version: v2
+managed:
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: github.com/mateusfdl/go-poc/gen
+plugins:
+  - remote: buf.build/protocolbuffers/go
+    out: ./
+  - remote: buf.build/connectrpc/go
+    out: ./
