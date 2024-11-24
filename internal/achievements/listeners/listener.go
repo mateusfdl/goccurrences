@@ -37,7 +37,7 @@ func NewListeners(
 }
 
 func (l *Listeners) RegisterListeners() {
-	emitter.AddListener[events.AccountCreatedEvent](l.AccountCreatedEventHandlers)
+	emitter.AddListener(l.AccountCreatedEventHandlers)
 }
 
 func (l *Listeners) AccountCreatedEventHandlers(e events.AccountCreatedEvent) error {
