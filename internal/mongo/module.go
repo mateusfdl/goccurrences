@@ -40,7 +40,7 @@ func HookConnection(lc fx.Lifecycle, client *Mongo, logger *zap.Logger) {
 			err := client.DB.Client().Ping(ctx, nil)
 			if err != nil {
 				logger.Error("mongo is dead", zap.Error(err))
-				return err
+				panic(err)
 			}
 
 			logger.Info("mongo is alive")
