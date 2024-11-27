@@ -7,13 +7,14 @@ toolchain go1.23.0
 require (
 	buf.build/gen/go/matheusslima/go-poc/grpc/go v1.3.0-20240217230903-87054d88a57f.2
 	buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go v1.32.0-20240217230903-87054d88a57f.1
+	connectrpc.com/connect v1.17.0
 	github.com/onsi/ginkgo/v2 v2.20.2
 	github.com/onsi/gomega v1.34.1
 	go.mongodb.org/mongo-driver v1.13.1
 	go.uber.org/fx v1.20.1
 	go.uber.org/zap v1.23.0
 	google.golang.org/grpc v1.60.1
-	google.golang.org/protobuf v1.34.1
+	google.golang.org/protobuf v1.34.2
 )
 
 require (
