@@ -3,7 +3,7 @@ package grpc
 import (
 	"context"
 
-	occurrences "buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go/occurrences/v1"
+	"buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go/occurrences/v1"
 	"github.com/mateusfdl/go-poc/internal/occurrences/dto"
 	"github.com/mateusfdl/go-poc/internal/occurrences/services"
 	"go.uber.org/zap"
@@ -18,8 +18,8 @@ func NewOccurrenceHandler(s *services.OccurrenceService, l *zap.SugaredLogger) *
 	return &OccurrenceHandler{service: s, l: l}
 }
 
-func (h OccurrenceHandler) CreateOccurrence(ctx context.Context, b *occurrences.CreateOccurrenceRequest,
-) (*occurrences.CreateOccurrenceResponse, error) {
+func (h OccurrenceHandler) CreateOccurrence(ctx context.Context, b *occurrencesv1.CreateOccurrenceRequest,
+) (*occurrencesv1.CreateOccurrenceResponse, error) {
 	dto := dto.FromCreateOccurrenceProto(b)
 
 	id, err := h.service.Create(ctx, dto)
@@ -27,11 +27,11 @@ func (h OccurrenceHandler) CreateOccurrence(ctx context.Context, b *occurrences.
 		h.l.Fatal(err)
 	}
 
-	return &occurrences.CreateOccurrenceResponse{OccurrenceId: id}, nil
+	return &occurrencesv1.CreateOccurrenceResponse{OccurrenceId: id}, nil
 }
 
-func (h OccurrenceHandler) ListUserOccurrences(ctx context.Context, b *occurrences.ListUserOccurrencesRequest,
-) (*occurrences.ListUserOccurrencesResponse, error) {
+func (h OccurrenceHandler) ListUserOccurrences(ctx context.Context, b *occurrencesv1.ListUserOccurrencesRequest,
+) (*occurrencesv1.ListUserOccurrencesResponse, error) {
 	dto := dto.FromListUserOccurrenceProto(b)
 
 	occurrences, err := h.service.UserOccurrences(ctx, dto)

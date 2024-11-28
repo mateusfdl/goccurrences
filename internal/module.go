@@ -21,10 +21,3 @@ var AdapterModules = fx.Options(
 	logger.Module,
 	grpc.Module,
 )
-
-func Start() {
-	fx.New(
-		AdapterModules,
-		CoreModules,
-	).Run()
-}

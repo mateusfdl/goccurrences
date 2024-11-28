@@ -3,7 +3,7 @@ package dto
 import (
 	"time"
 
-	occurrences "buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go/occurrences/v1"
+	"buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go/occurrences/v1"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/mateusfdl/go-poc/internal/occurrences/entity"
@@ -23,36 +23,36 @@ type ListUserOccurrenceDTO struct {
 	Limit   uint32 `json:"limit"`
 }
 
-func FromCreateOccurrenceProto(oc *occurrences.CreateOccurrenceRequest) *CreateOccurrenceDTO {
+func FromCreateOccurrenceProto(oc *occurrencesv1.CreateOccurrenceRequest) *CreateOccurrenceDTO {
 	return &CreateOccurrenceDTO{
 		SourceType:     entity.OccurrenceType(oc.OccurrenceCode),
-		SourceID:       oc.UserId,
-		ActorID:        oc.UserId,
+		SourceID:       oc.SourceId,
+		ActorID:        oc.ActorId,
 		ActorType:      "User",
 		OccurrenceTime: oc.OccurrenceTime.AsTime(),
 	}
 }
 
-func FromListUserOccurrenceProto(oc *occurrences.ListUserOccurrencesRequest) *ListUserOccurrenceDTO {
+func FromListUserOccurrenceProto(oc *occurrencesv1.ListUserOccurrencesRequest) *ListUserOccurrenceDTO {
 	return &ListUserOccurrenceDTO{
-		ActorID: oc.UserId,
+		ActorID: oc.ActorId,
 		Limit:   oc.Limit,
 		Skip:    oc.Skip,
 	}
 }
 
-func (l *ListUserOccurrenceDTO) ToProto(oc *[]entity.Occurrence) *occurrences.ListUserOccurrencesResponse {
-	var res = make([]*occurrences.Occurrence, len(*oc))
+func (l *ListUserOccurrenceDTO) ToProto(oc *[]entity.Occurrence) *occurrencesv1.ListUserOccurrencesResponse {
+	var res = make([]*occurrencesv1.Occurrence, len(*oc))
 
 	for i, occurrence := range *oc {
-		res[i] = &occurrences.Occurrence{
+		res[i] = &occurrencesv1.Occurrence{
 			OccurrenceId:   occurrence.ID,
-			OccurrenceCode: occurrences.OccurrenceType(occurrence.SourceType),
+			OccurrenceCode: occurrencesv1.OccurrenceType(occurrence.SourceType),
 			OccurrenceTime: timestamppb.New(occurrence.OccurrenceTime),
 		}
 	}
 
-	return &occurrences.ListUserOccurrencesResponse{
+	return &occurrencesv1.ListUserOccurrencesResponse{
 		Occurrences: res,
 	}
 }

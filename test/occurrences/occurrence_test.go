@@ -4,10 +4,9 @@ import (
 	"context"
 	"testing"
 
-	occurrencesgrpc "buf.build/gen/go/matheusslima/go-poc/grpc/go/occurrences/v1/occurrencesv1grpc"
-	occurrenceGrpc "buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go/occurrences/v1"
-	occurrencesv1 "buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go/occurrences/v1"
-	grpcServer "github.com/mateusfdl/go-poc/internal/grpc"
+	occurrencesGRPC "buf.build/gen/go/matheusslima/go-poc/grpc/go/occurrences/v1/occurrencesv1grpc"
+	"buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go/occurrences/v1"
+	gRPCServer "github.com/mateusfdl/go-poc/internal/grpc"
 	"github.com/mateusfdl/go-poc/internal/logger"
 	"github.com/mateusfdl/go-poc/internal/mongo"
 	"github.com/mateusfdl/go-poc/internal/occurrences"
@@ -23,14 +22,14 @@ var (
 	mongoClient *mongo.Mongo
 	TestApp     = fx.New(
 		occurrences.Module,
-		grpcServer.Module,
+		gRPCServer.Module,
 		logger.Module,
 		mongo.Module,
 		fx.Populate(&mongoClient),
 	)
 
 	clientConn       *grpc.ClientConn
-	OccurrenceClient occurrencesgrpc.OccurrenceServiceClient
+	OccurrenceClient occurrencesGRPC.OccurrenceServiceClient
 )
 
 func TestOccurrenceRPCHandler(t *testing.T) {
@@ -42,14 +41,14 @@ var _ = BeforeSuite(func() {
 	Expect(TestApp.Start(context.Background())).To(Succeed())
 
 	var dialErr error
-	clientConn, dialErr = grpc.Dial(
+	clientConn, dialErr = grpc.NewClient(
 		"localhost:8080",
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 
 	Expect(dialErr).NotTo(HaveOccurred())
 
-	OccurrenceClient = occurrencesgrpc.NewOccurrenceServiceClient(clientConn)
+	OccurrenceClient = occurrencesGRPC.NewOccurrenceServiceClient(clientConn)
 })
 
 var _ = AfterSuite(func() {
@@ -64,10 +63,10 @@ var _ = Describe("grpc occurrence handler", func() {
 			userId := "65cbcd82f5cec8b2f2b1b27f"
 			resp, err := OccurrenceClient.CreateOccurrence(
 				context.Background(),
-				&occurrenceGrpc.CreateOccurrenceRequest{
+				&occurrencesv1.CreateOccurrenceRequest{
 					OccurrenceCode: 0,
 					OccurrenceTime: timestamppb.Now(),
-					UserId:         userId,
+					ActorId:        userId,
 				},
 			)
 			Expect(err).To(BeNil())
@@ -86,10 +85,10 @@ var _ = Describe("grpc occurrence handler", func() {
 			for i := 0; i < 10; i++ {
 				occurrenceID, err := OccurrenceClient.CreateOccurrence(
 					context.Background(),
-					&occurrenceGrpc.CreateOccurrenceRequest{
+					&occurrencesv1.CreateOccurrenceRequest{
 						OccurrenceCode: 0,
 						OccurrenceTime: timestamppb.Now(),
-						UserId:         userId,
+						ActorId:        userId,
 					},
 				)
 				Expect(err).To(BeNil())
@@ -98,18 +97,18 @@ var _ = Describe("grpc occurrence handler", func() {
 
 			otherOccurrenceID, err := OccurrenceClient.CreateOccurrence(
 				context.Background(),
-				&occurrenceGrpc.CreateOccurrenceRequest{
+				&occurrencesv1.CreateOccurrenceRequest{
 					OccurrenceCode: 0,
 					OccurrenceTime: timestamppb.Now(),
-					UserId:         otherUserId,
+					ActorId:        otherUserId,
 				},
 			)
 			Expect(err).To(BeNil())
 
-			resp, err := OccurrenceClient.ListUserOccurrences(context.Background(), &occurrenceGrpc.ListUserOccurrencesRequest{
-				UserId: userId,
-				Limit:  10,
-				Skip:   0,
+			resp, err := OccurrenceClient.ListUserOccurrences(context.Background(), &occurrencesv1.ListUserOccurrencesRequest{
+				ActorId: userId,
+				Limit:   10,
+				Skip:    0,
 			})
 			Expect(err).To(BeNil())
 

@@ -1,6 +1,6 @@
 package events
 
 type PostCreatedEvent struct {
-  PostID string
-  CreatedAt string
+	PostID    string
+	CreatedAt string
 }
