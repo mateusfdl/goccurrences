@@ -33,7 +33,11 @@ message ListUserOccurrencesRequest {
 message Occurrence {
   string occurrence_id = 1;
   OccurrenceType occurrence_code = 2;
-  google.protobuf.Timestamp occurrence_time = 3;
+  string actor_id = 3;
+  string actor_type = 4;
+  string source_id = 5;
+  string source_type = 6;
+  google.protobuf.Timestamp occurrence_time = 7;
 }
 
 service OccurrenceService {

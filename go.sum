@@ -1,7 +1,11 @@
 buf.build/gen/go/matheusslima/go-poc/grpc/go v1.5.1-20241127001646-f52fff6934ea.1 h1:yv/hyeqS0Mcw4lc5hLOjTlfJemaB274BAY2n/RNJk9E=
 buf.build/gen/go/matheusslima/go-poc/grpc/go v1.5.1-20241127001646-f52fff6934ea.1/go.mod h1:jIfMvnLsX7VeaMcsvHnj6uBHva0HgccLvCRiFKqcKKo=
+buf.build/gen/go/matheusslima/go-poc/grpc/go v1.5.1-20241202033139-d0ca039b04b2.1 h1:10zlCOJpzuKTvOxztHNc6vBybubRic4IEUWl37VF3TQ=
+buf.build/gen/go/matheusslima/go-poc/grpc/go v1.5.1-20241202033139-d0ca039b04b2.1/go.mod h1:4htku/4UVT0NXKxUjg25WGzVZjx/m4PF67hvDCBDpfQ=
 buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go v1.35.2-20241127001646-f52fff6934ea.1 h1:XU/xGX0QhU7+12qdFcg/78kujuEqI8ceRUA2SlhRRVE=
 buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go v1.35.2-20241127001646-f52fff6934ea.1/go.mod h1:7863PvPDed7Y1FhfS/qxOsDTtCmstCEyuB7zAheY4z8=
+buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go v1.35.2-20241202033139-d0ca039b04b2.1 h1:vf2houvNEg1tX39emD3EVFDwPnsnt5oYHJaZ5BzvyiA=
+buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go v1.35.2-20241202033139-d0ca039b04b2.1/go.mod h1:7863PvPDed7Y1FhfS/qxOsDTtCmstCEyuB7zAheY4z8=
 github.com/benbjohnson/clock v1.3.0 h1:ip6w0uFQkncKQ979AypyG0ER7mqUSBdKLOgAle/AT8A=
 github.com/benbjohnson/clock v1.3.0/go.mod h1:J11/hYXuz8f4ySSvYwY0FKfm+ezbsZBKZxNJlLklBHA=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

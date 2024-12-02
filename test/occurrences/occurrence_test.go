@@ -49,11 +49,11 @@ var _ = BeforeSuite(func() {
 	Expect(dialErr).NotTo(HaveOccurred())
 
 	OccurrenceClient = occurrencesGRPC.NewOccurrenceServiceClient(clientConn)
+	Expect(mongoClient.DB.Client().Database("rewards-poc").Collection("occurrences").Drop(context.Background())).To(Succeed())
 })
 
 var _ = AfterSuite(func() {
 	Expect(clientConn.Close()).To(Succeed())
-	Expect(mongoClient.DB.Client().Database("rewards-poc").Collection("occurrences").Drop(context.Background())).To(Succeed())
 	Expect(TestApp.Stop(context.Background())).To(Succeed())
 })
 
@@ -67,6 +67,9 @@ var _ = Describe("grpc occurrence handler", func() {
 					OccurrenceCode: 0,
 					OccurrenceTime: timestamppb.Now(),
 					ActorId:        userId,
+					ActorType:      "User",
+					SourceId:       userId,
+					SourceType:     "User",
 				},
 			)
 			Expect(err).To(BeNil())
@@ -78,7 +81,7 @@ var _ = Describe("grpc occurrence handler", func() {
 	Describe("ListUserOccurences", func() {
 		It("returns all user occurrences", func() {
 			userId := "65cbcd82f5cec8b2f2b1b29f"
-			otherUserId := "65cbcd82f5cec8b2f2b1b28f"
+			randomUserId := "65cbcd82f5cec8b2f2b1b67t"
 
 			var occurreceIDs = make([]string, 0, 10)
 
@@ -89,6 +92,9 @@ var _ = Describe("grpc occurrence handler", func() {
 						OccurrenceCode: 0,
 						OccurrenceTime: timestamppb.Now(),
 						ActorId:        userId,
+						ActorType:      "User",
+						SourceId:       userId,
+						SourceType:     "User",
 					},
 				)
 				Expect(err).To(BeNil())
@@ -100,7 +106,10 @@ var _ = Describe("grpc occurrence handler", func() {
 				&occurrencesv1.CreateOccurrenceRequest{
 					OccurrenceCode: 0,
 					OccurrenceTime: timestamppb.Now(),
-					ActorId:        otherUserId,
+					ActorId:        randomUserId,
+					ActorType:      "User",
+					SourceId:       randomUserId,
+					SourceType:     "User",
 				},
 			)
 			Expect(err).To(BeNil())

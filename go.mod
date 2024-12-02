@@ -5,8 +5,8 @@ go 1.22
 toolchain go1.23.0
 
 require (
-	buf.build/gen/go/matheusslima/go-poc/grpc/go v1.5.1-20241127001646-f52fff6934ea.1
-	buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go v1.35.2-20241127001646-f52fff6934ea.1
+	buf.build/gen/go/matheusslima/go-poc/grpc/go v1.5.1-20241202033139-d0ca039b04b2.1
+	buf.build/gen/go/matheusslima/go-poc/protocolbuffers/go v1.35.2-20241202033139-d0ca039b04b2.1
 	github.com/onsi/ginkgo/v2 v2.20.2
 	github.com/onsi/gomega v1.34.1
 	go.mongodb.org/mongo-driver v1.13.1
