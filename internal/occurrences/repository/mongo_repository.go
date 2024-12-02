@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 
 	mongodb "github.com/mateusfdl/go-poc/internal/mongo"
@@ -36,7 +37,6 @@ func (c *MongoOccurrenceRepository) Create(
 	if !ok {
 		log.Fatal("error casting to object id")
 		return "", errors.New("error casting to object id")
-
 	}
 
 	return oid.Hex(), nil
@@ -44,13 +44,26 @@ func (c *MongoOccurrenceRepository) Create(
 
 func (c *MongoOccurrenceRepository) List(
 	ctx context.Context,
-	ID string,
+	actorID string,
 	Limit uint32,
 	Skip uint32,
 ) (*[]entity.Occurrence, error) {
 	var occurrences []entity.Occurrence
 	stages := bson.A{
-		bson.D{{Key: "$match", Value: bson.D{{Key: "userid", Value: ID}}}},
+		bson.D{{Key: "$match", Value: bson.D{{Key: "actorId", Value: actorID}}}},
+		bson.D{{Key: "$sort", Value: bson.D{{Key: "occurrenceTime", Value: -1}}}},
+		bson.D{{Key: "$skip", Value: Skip}},
+		bson.D{{Key: "$limit", Value: Limit}},
+		bson.D{{Key: "$project", Value: bson.D{
+			{Key: "_id", Value: 0},
+			{Key: "id", Value: "$_id"},
+			{Key: "occurrenceCode", Value: 1},
+			{Key: "occurrenceTime", Value: 1},
+			{Key: "actorId", Value: 1},
+			{Key: "actorType", Value: 1},
+			{Key: "sourceId", Value: 1},
+			{Key: "sourceType", Value: 1},
+		}}},
 	}
 
 	cursor, err := c.collection.Aggregate(ctx, stages)
@@ -61,6 +74,8 @@ func (c *MongoOccurrenceRepository) List(
 	if err = cursor.All(context.TODO(), &occurrences); err != nil {
 		return nil, ErrListUserOccurrences
 	}
+	fmt.Println("Here")
+	fmt.Println(occurrences)
 
 	return &occurrences, nil
 }

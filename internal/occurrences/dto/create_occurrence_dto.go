@@ -10,11 +10,12 @@ import (
 )
 
 type CreateOccurrenceDTO struct {
-	SourceID       string                `json:"sourceId"`
-	SourceType     entity.OccurrenceType `json:"sourceType"`
-	ActorID        string                `json:"actorId"`
-	ActorType      string                `json:"actorType"`
-	OccurrenceTime time.Time             `json:"timestamp"`
+	SourceID       string                       `json:"sourceId" bson:"sourceId"`
+	SourceType     string                       `json:"sourceType" bson:"sourceType"`
+	ActorID        string                       `json:"actorId" bson:"actorId"`
+	ActorType      string                       `json:"actorType" bson:"actorType"`
+	OccurrenceTime time.Time                    `json:"timestamp" bson:"occurrenceTime"`
+	OccurrenceCode occurrencesv1.OccurrenceType `json:"occurrenceCode" bson:"occurrenceCode"`
 }
 
 type ListUserOccurrenceDTO struct {
@@ -25,10 +26,11 @@ type ListUserOccurrenceDTO struct {
 
 func FromCreateOccurrenceProto(oc *occurrencesv1.CreateOccurrenceRequest) *CreateOccurrenceDTO {
 	return &CreateOccurrenceDTO{
-		SourceType:     entity.OccurrenceType(oc.OccurrenceCode),
+		SourceType:     oc.SourceType,
+		OccurrenceCode: oc.OccurrenceCode,
 		SourceID:       oc.SourceId,
 		ActorID:        oc.ActorId,
-		ActorType:      "User",
+		ActorType:      oc.ActorType,
 		OccurrenceTime: oc.OccurrenceTime.AsTime(),
 	}
 }
@@ -47,12 +49,14 @@ func (l *ListUserOccurrenceDTO) ToProto(oc *[]entity.Occurrence) *occurrencesv1.
 	for i, occurrence := range *oc {
 		res[i] = &occurrencesv1.Occurrence{
 			OccurrenceId:   occurrence.ID,
-			OccurrenceCode: occurrencesv1.OccurrenceType(occurrence.SourceType),
+			OccurrenceCode: occurrencesv1.OccurrenceType(occurrence.OccurenceCode),
 			OccurrenceTime: timestamppb.New(occurrence.OccurrenceTime),
+			SourceId:       occurrence.SourceId,
+			SourceType:     occurrence.SourceType,
+			ActorId:        occurrence.ActorId,
+			ActorType:      occurrence.ActorType,
 		}
 	}
 
-	return &occurrencesv1.ListUserOccurrencesResponse{
-		Occurrences: res,
-	}
+	return &occurrencesv1.ListUserOccurrencesResponse{Occurrences: res}
 }

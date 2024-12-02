@@ -11,9 +11,10 @@ const (
 type OccurrenceType int
 
 type Occurrence struct {
-	ID             string         `bson:"_id"`
+	ID             string         `bson:"id"`
 	SourceId       string         `bson:"sourceId"`
-	SourceType     OccurrenceType `bson:"sourceType"`
+	SourceType     string         `bson:"sourceType"`
+	OccurenceCode  OccurrenceType `bson:"occurrenceCode"`
 	ActorId        string         `bson:"actorId"`
 	ActorType      string         `bson:"actorType"`
 	OccurrenceTime time.Time      `bson:"occurrenceTime"`

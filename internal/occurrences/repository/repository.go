@@ -9,5 +9,5 @@ import (
 
 type OccurrenceRepository interface {
 	Create(ctx context.Context, occurrence *dto.CreateOccurrenceDTO) (string, error)
-	List(ctx context.Context, ID string, limit uint32, skip uint32) (*[]entity.Occurrence, error)
+	List(ctx context.Context, actorID string, limit uint32, skip uint32) (*[]entity.Occurrence, error)
 }

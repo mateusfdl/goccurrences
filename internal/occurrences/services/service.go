@@ -33,7 +33,7 @@ func (s *OccurrenceService) Create(
 		return "", err
 	}
 
-	s.dispatchOccurrenceEvent(dto, dto.SourceType)
+	s.dispatchOccurrenceEvent(dto, entity.OccurrenceType(dto.OccurrenceCode))
 	return id, nil
 }
 
