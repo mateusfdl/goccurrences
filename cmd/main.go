@@ -1,7 +1,15 @@
 package main
 
-func main() {
-	app := NewApplication()
+import (
+	"github.com/mateusfdl/go-poc/internal"
+	"go.uber.org/fx"
+)
 
-	app.Start()
+var BaseModule = fx.Options(
+	internal.CoreModules,
+	internal.AdapterModules,
+)
+
+func main() {
+	fx.New(BaseModule).Run()
 }
