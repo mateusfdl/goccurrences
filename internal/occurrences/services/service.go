@@ -62,7 +62,7 @@ func (s *OccurrenceService) dispatchOccurrenceEvent(
 ) {
 	switch occurrenceType {
 	case entity.AccountCreated:
-		emitter.Emit(events.AccountCreatedEvent{UserID: dto.ActorID})
+		emitter.Emit(events.AccountCreatedEvent{UserID: dto.ActorID, CreatedAt: dto.OccurrenceTime})
 	default:
 		s.logger.Error("unknown occurrence type")
 	}

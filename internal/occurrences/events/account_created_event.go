@@ -1,6 +1,10 @@
 package events
 
+import (
+	"time"
+)
+
 type AccountCreatedEvent struct {
 	UserID    string
-	CreatedAt string
+	CreatedAt time.Time
 }
