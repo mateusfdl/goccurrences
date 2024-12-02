@@ -1,8 +1,7 @@
 package internal
 
 import (
-	"github.com/mateusfdl/go-poc/internal/achievements/badges"
-	"github.com/mateusfdl/go-poc/internal/achievements/listeners"
+	"github.com/mateusfdl/go-poc/internal/achievements"
 	"github.com/mateusfdl/go-poc/internal/grpc"
 	"github.com/mateusfdl/go-poc/internal/logger"
 	"github.com/mateusfdl/go-poc/internal/mongo"
@@ -12,8 +11,7 @@ import (
 
 var CoreModules = fx.Options(
 	occurrences.Module,
-	listeners.Module,
-	badges.Module,
+	achievements.Module,
 )
 
 var AdapterModules = fx.Options(

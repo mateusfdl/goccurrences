@@ -9,4 +9,6 @@ type Badge interface {
 	EvaluateRule(*[]entity.Occurrence) error
 }
 
-var Module = fx.Module("badges", fx.Provide(NewAccountCreatedBadge))
+var Module = fx.Module("badges",
+	fx.Provide(NewAccountCreatedBadge),
+)
